@@ -8,6 +8,10 @@ spec:
     kind: GitRepository
     name: dwk-repository
   interval: 10m
-  path: ./project/v2.0
+  path: ./project/v2.1
   prune: true
   validation: client
+  decryption:
+    provider: sops
+      secretRef:
+        name: sops-key
