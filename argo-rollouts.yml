@@ -1,0 +1,29 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: argo-rollouts-repository
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: https://argoproj.github.io/argo-helm
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: argo-rollouts
+  namespace: flux-system
+spec:
+  interval: 5m
+  targetNamespace: argo-namespace
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: argo-rollouts
+      sourceRef:
+        kind: HelmRepository
+        name: argo-rollouts-repository
+        namespace: flux-system
+      interval: 1m
+  values:
+    replicaCount: 1
